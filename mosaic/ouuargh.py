@@ -12,7 +12,7 @@ import random
 
 imageName = "i.png"
 img =  cv.imread("images/"+imageName,cv.IMREAD_COLOR) #image for the photomosaic
-imageset = "album" #path for the image set
+imageset = "flower_images" #path for the image set
 imagepath = "croppedimagesets/"+ imageset
 squaresize = 25 #size of each image in the photomosaic
 
@@ -109,11 +109,13 @@ if not cacheChoice:
 
 
 
-
-    if hashFile(tempCacheDirec) != hashFile(cacheDirec):
-        os.replace(tempCacheDirec, cacheDirec)
-    else:
-        os.remove(tempCacheDirec)
+    try:
+        if hashFile(tempCacheDirec) != hashFile(cacheDirec):
+            os.replace(tempCacheDirec, cacheDirec)
+        else:
+            os.remove(tempCacheDirec)
+    except:
+        pass
 doneCheck = True
 
 with open(cacheDirec, "r") as f:
@@ -125,7 +127,7 @@ count = 0
 for y in range(0,h,squaresize): #splits the image into squares
     for x in range(0,w,squaresize):
         count += 1
-      #  print(str(count) + "##################################################################################################")
+      
         square = img[y:y+squaresize, x:x+squaresize]
         lowest = float('inf')
         temp = []
@@ -207,7 +209,10 @@ print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 playsound("rah.mp3")
 cv.imshow("image", blank)
 os.chdir("result") 
-cv.imwrite(str(random.randint(1,10000))+".png", blank)
+nameCounter = 0
+while os.path.exists(imageName[:-4]+str(nameCounter)+".png"):
+    nameCounter += 1
+cv.imwrite(imageName[:-4]+str(nameCounter)+".png", blank)
 cv.waitKey(0)
 cv.destroyAllWindows()
 

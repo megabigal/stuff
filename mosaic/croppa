@@ -1,11 +1,11 @@
 import cv2 as cv
 import numpy as np
 import os
-def crop(img):
+def crop(imgName):
     
-    img =  cv.imread(img)
+    img =  cv.imread(imgName)
     if img is None:
-        print(f"Failed to load image: {img}")
+        print(f"Failed to load image: {imgName}")
         return None
     h,w = img.shape[:2]
     minside = min(h, w)
@@ -21,7 +21,7 @@ def crop(img):
 
 def save(img,n):
     
-    directory = r'C:\Users\Allan\OneDrive\Documents\Computing\shit\mosaic\croppedimages'
+    
     new = "croppedimagesets/" + imageSet
     if not os.path.exists(new):
         os.makedirs(new)
@@ -31,7 +31,7 @@ def save(img,n):
     cv.imwrite(str(n)+".png", img)
 
 
-direc = r'C:\Users\Allan\OneDrive\Documents\Computing\shit\mosaic\lol_images'
+
 n = 0
 global imageSet
 imageSet  = "album"
@@ -41,7 +41,7 @@ for f in os.listdir(imagepath):
     f = os.path.join(imagepath, f)
     n += 1
     i = crop(f)
-    if f:
+    if i is not None:
         save(i,n)
-    os.chdir('..')
-    os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
