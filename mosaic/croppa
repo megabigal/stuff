@@ -1,0 +1,47 @@
+import cv2 as cv
+import numpy as np
+import os
+def crop(img):
+    
+    img =  cv.imread(img)
+    if img is None:
+        print(f"Failed to load image: {img}")
+        return None
+    h,w = img.shape[:2]
+    minside = min(h, w)
+    if h > w:
+        #img = cv.resize(img, (h,h))
+        start = (h - w) // 2
+        img = img[start:start+w, :]
+    else:
+        start = (w - h) // 2
+        img = img[:, start:start+h]
+    img = cv.resize(img, (minside, minside), interpolation=cv.INTER_AREA)
+    return img
+
+def save(img,n):
+    
+    directory = r'C:\Users\Allan\OneDrive\Documents\Computing\shit\mosaic\croppedimages'
+    new = "croppedimagesets/" + imageSet
+    if not os.path.exists(new):
+        os.makedirs(new)
+    
+    os.chdir(new) 
+    print(n) 
+    cv.imwrite(str(n)+".png", img)
+
+
+direc = r'C:\Users\Allan\OneDrive\Documents\Computing\shit\mosaic\lol_images'
+n = 0
+global imageSet
+imageSet  = "album"
+imagepath = "imagesets/" + imageSet
+for f in os.listdir(imagepath):
+    
+    f = os.path.join(imagepath, f)
+    n += 1
+    i = crop(f)
+    if f:
+        save(i,n)
+    os.chdir('..')
+    os.chdir('..')
